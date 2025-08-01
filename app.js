@@ -1,6 +1,6 @@
 // Supabase URL und Public API Key aus deinem Projekt
-const SUPABASE_URL = 'https://DEINE-SUPABASE-URL.supabase.co';
-const SUPABASE_ANON_KEY = 'DEIN-ÖFFENTLICHER-ANON-KEY';
+const SUPABASE_URL = 'https://hcqqtskndvgbtytymzou.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhjcXF0c2tuZHZnYnR5dHltem91Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQwNzY1MzMsImV4cCI6MjA2OTY1MjUzM30.UOIpAPDi6SGwrZg1x_Y07EFbSD-uRsQYsnb6HDkHqCI';
 
 const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
