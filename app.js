@@ -1,14 +1,3 @@
-// Supabase URL und Public API Key aus deinem Projekt
-const SUPABASE_URL = 'https://hcqqtskndvgbtytymzou.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhjcXF0c2tuZHZnYnR5dHltem91Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQwNzY1MzMsImV4cCI6MjA2OTY1MjUzM30.UOIpAPDi6SGwrZg1x_Y07EFbSD-uRsQYsnb6HDkHqCI';
-
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-const areaSelect = document.getElementById('areaSelect');
-const taskInput = document.getElementById('taskInput');
-const addTaskBtn = document.getElementById('addTaskBtn');
-const todoList = document.getElementById('todoList');
-
 async function loadTasks() {
   const { data, error } = await supabase
     .from('todos')
@@ -25,44 +14,16 @@ async function loadTasks() {
   data.forEach(todo => {
     const li = document.createElement('li');
     li.textContent = `[${todo.area}] ${todo.task}`;
-    li.style.textDecoration = todo.done ? 'line-through' : 'none';
+
+    if (todo.done) {
+      li.classList.add('done');
+    } else {
+      li.classList.remove('done');
+    }
+
+    // Klick-Handler zum Abhaken
     li.onclick = () => toggleDone(todo.id, todo.done);
+
     todoList.appendChild(li);
   });
 }
-
-async function addTask() {
-  const task = taskInput.value.trim();
-  if (!task) return alert('Bitte gib eine Aufgabe ein.');
-
-  const area = areaSelect.value;
-
-  const { data, error } = await supabase
-    .from('todos')
-    .insert([{ task, area, done: false }]);
-
-  if (error) {
-    console.error('Fehler beim Hinzufügen:', error);
-    alert('Fehler beim Hinzufügen der Aufgabe.');
-  } else {
-    taskInput.value = '';
-    loadTasks();
-  }
-}
-
-async function toggleDone(id, currentDone) {
-  const { data, error } = await supabase
-    .from('todos')
-    .update({ done: !currentDone })
-    .eq('id', id);
-
-  if (error) {
-    console.error('Fehler beim Aktualisieren:', error);
-  } else {
-    loadTasks();
-  }
-}
-
-addTaskBtn.addEventListener('click', addTask);
-
-loadTasks();
