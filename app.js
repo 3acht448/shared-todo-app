@@ -1,10 +1,9 @@
-// Supabase URL und Public API Key aus deinem Projekt einfügen
 const SUPABASE_URL = 'https://hcqqtskndvgbtytymzou.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhjcXF0c2tuZHZnYnR5dHltem91Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQwNzY1MzMsImV4cCI6MjA2OTY1MjUzM30.UOIpAPDi6SGwrZg1x_Y07EFbSD-uRsQYsnb6HDkHqCI';
 
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const { createClient } = supabase;
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// DOM Elemente
 const areaSelect = document.getElementById('areaSelect');
 const taskInput = document.getElementById('taskInput');
 const addTaskBtn = document.getElementById('addTaskBtn');
@@ -15,7 +14,7 @@ async function loadTasks() {
     .from('todos')
     .select('*')
     .order('created_at', { ascending: false });
-  
+
   if (error) {
     console.error('Fehler beim Laden:', error);
     return;
@@ -71,8 +70,6 @@ async function toggleDone(id, currentDone) {
   }
 }
 
-// Button Event Listener verbinden
 addTaskBtn.addEventListener('click', addTask);
 
-// ToDos direkt beim Laden anzeigen
 loadTasks();
