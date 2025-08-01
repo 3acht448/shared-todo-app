@@ -1,29 +1,18 @@
-async function loadTasks() {
+async function addTask() {
+  const task = taskInput.value.trim();
+  if (!task) return alert('Bitte gib eine Aufgabe ein.');
+
+  const area = areaSelect.value;
+
   const { data, error } = await supabase
     .from('todos')
-    .select('*')
-    .order('created_at', { ascending: false });
-  
+    .insert([{ task, area, done: false }]);
+
   if (error) {
-    console.error('Fehler beim Laden:', error);
-    return;
+    console.error('Fehler beim Hinzufügen:', error);
+    alert('Fehler beim Hinzufügen der Aufgabe.');
+  } else {
+    taskInput.value = '';
+    loadTasks();
   }
-
-  todoList.innerHTML = '';
-
-  data.forEach(todo => {
-    const li = document.createElement('li');
-    li.textContent = `[${todo.area}] ${todo.task}`;
-
-    if (todo.done) {
-      li.classList.add('done');
-    } else {
-      li.classList.remove('done');
-    }
-
-    // Klick-Handler zum Abhaken
-    li.onclick = () => toggleDone(todo.id, todo.done);
-
-    todoList.appendChild(li);
-  });
 }
